@@ -13,8 +13,17 @@ int main(int argv, char** args) {
     std::fstream pFileWrite;
     printf_s("二进制文件转十六进制数组工具开始生效：\n");
 
-    printf_s("转换文件为：%s\n", args[1]);
-    fopen_s(&pFileRead, args[1], "rb");
+    printf_s("转换文件为：%s", args[1]);
+    if (fopen_s(&pFileRead, args[1], "rb"))
+    {
+        std::cout << "打开文件失败！！！" << std::endl;
+        return argv;
+    }
+
+    _fseeki64(pFileRead, 0, SEEK_END);
+    unsigned long long sizeFile = _ftelli64(pFileRead);
+    printf_s("转换文件大小为：%lluKB\n", sizeFile / 1024);
+    _fseeki64(pFileRead, 0, SEEK_SET);
 
     char NewFile[_MAX_PATH]{ 0 };
     sprintf_s(NewFile, _MAX_PATH, "%s.txt", args[1]);
@@ -25,6 +34,8 @@ int main(int argv, char** args) {
 
     unsigned char Readbuff[18]{ 0 };
     unsigned char Writebuff[8]{ 0 };
+
+   
 
     auto size = sizeof(Readbuff);
     while (true)
