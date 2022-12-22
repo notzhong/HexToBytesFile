@@ -53,7 +53,7 @@ int main(int argv, char** args) {
 
     _fseeki64(pFileRead, 0, SEEK_END);
     unsigned long long sizeFile = _ftelli64(pFileRead);
-    printf_s("转换文件大小为：%lluKB\n", sizeFile / 1024);
+    printf_s("转换文件大小为：%llu字节\n", sizeFile);
     _fseeki64(pFileRead, 0, SEEK_SET);
 
     char NewFile[_MAX_PATH]{ 0 };
@@ -81,7 +81,8 @@ int main(int argv, char** args) {
         {
             if (sizeFlag)
                 superabundantWrite(Writebuff, nGetNum, str, i, pFileRead);
-            divisibility(Writebuff, nGetNum, str, i);
+            else
+                divisibility(Writebuff, nGetNum, str, i);
             pFileWrite << Writebuff;
             //fwrite(Writebuff, nWrite, 1, pFileWite);
         }
